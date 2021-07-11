@@ -34,6 +34,8 @@ $ npm install
 ## Running the app
 
 ```bash
+# start your postgres and redis
+
 # development
 $ npm run start
 
@@ -42,6 +44,11 @@ $ npm run start:dev
 
 # production mode
 $ npm run start:prod
+```
+
+or 
+```bash
+$ docker compose up
 ```
 
 ## Typeorm migrations

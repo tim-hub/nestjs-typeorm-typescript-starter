@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Docke`rfile
+    environment:
+      - DB_HOST=postgres
+      - DB_PWD=pwd
+      - REDIS_HOST=redis
+      # other non-sensitive envs are in .env.default
+    ports:
+      - 3000:3000
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - webnet
+
+  postgres:
+    image: postgres:12-alpine
+    restart: always
+    networks:
+      - webnet
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=pwd
+      - POSTGRES_USER=postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    restart: always
+    networks:
+      - webnet
+    ports:
+      - 8080:8080
+
+  redis:
+    image: redis:6-alpine
+    networks:
+      - webnet
+
+networks:
+  webnet:
+    driver: bridge
+volumes:
+  pgdata:
